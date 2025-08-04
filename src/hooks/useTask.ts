@@ -23,6 +23,9 @@ export const useTasks = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
+    onError: (error: any) => {
+      console.error('Add task error:', error);
+    },
   });
 
   // Update a task
@@ -30,6 +33,9 @@ export const useTasks = () => {
     mutationFn: ({ id, todo }: { id: number; todo: Partial<Task> }) => updateTodo(id, todo),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+    onError: (error: any) => {
+      console.error('Update task error:', error);
     },
   });
 
@@ -39,6 +45,9 @@ export const useTasks = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
+    onError: (error: any) => {
+      console.error('Delete task error:', error);
+    },
   });
 
   return {
@@ -46,7 +55,19 @@ export const useTasks = () => {
     isLoading,
     error,
     addTask: addMutation.mutate,
+    addTaskStatus: {
+      isPending: addMutation.isPending,
+      error: addMutation.error,
+    },
     updateTask: updateMutation.mutate,
+    updateTaskStatus: {
+      isPending: updateMutation.isPending,
+      error: updateMutation.error,
+    },
     deleteTask: deleteMutation.mutate,
+    deleteTaskStatus: {
+      isPending: deleteMutation.isPending,
+      error: deleteMutation.error,
+    },
   };
 };
