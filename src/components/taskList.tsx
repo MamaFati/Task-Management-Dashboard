@@ -16,7 +16,7 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
     const statusFilter = useSelector((state: RootState) => state.filter.status);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingTask, setEditingTask] = useState<Task | undefined>(undefined);
-    const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
+    const [, setTaskToDelete] = useState<Task | null>(null);
 
     const filteredTasks = tasks?.filter((task: { completed: any; }) =>
       statusFilter === 'All'
@@ -64,7 +64,7 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
           <Select
             value={statusFilter}
             onValueChange={(value: string) =>
-              dispatch(setStatusFilter(value as 'All' | 'Pending' | 'Done'))
+              dispatch(setStatusFilter(value as 'All' |'To Do' | 'In Progress' | 'Done'))
             }
           >
             <SelectTrigger className="w-[180px]">
@@ -72,7 +72,8 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="All">All</SelectItem>
-              <SelectItem value="Pending">Pending</SelectItem>
+              <SelectItem value="To Do">To Do</SelectItem>
+              <SelectItem value="In Progress">In Progress</SelectItem>
               <SelectItem value="Done">Done</SelectItem>
             </SelectContent>
           </Select>
@@ -154,8 +155,8 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
                         size="sm"
                         className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         onClick={() => {
-                          setEditingTask(task);
-                          setIsFormOpen(true);
+                          setIsFormOpen(true),
+                          setEditingTask(task as Task);
                         }}
                       >
                         Edit
@@ -183,7 +184,7 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
                             <AlertDialogAction
                               className="bg-red-600 hover:bg-red-700"
                               onClick={() => {
-                                deleteTask(task.id );
+                                deleteTask(task.id as number);
                                 setTaskToDelete(null);
                               }}
                             >
