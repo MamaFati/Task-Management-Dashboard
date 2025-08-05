@@ -7,8 +7,6 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-// Task-related endpoints
-// Add auth token to requests
   api.interceptors.request.use((config) => {
     const token = store.getState().auth.token;
     if (token) {
@@ -22,6 +20,10 @@ const api = axios.create({
     return response.data;
   };
 
+   export const signup = async (data: { username: string; email: string; password: string }) => {
+    const response = await api.post('/auth/register', data);
+    return response.data;
+  }; 
   export const fetchTodos = async (): Promise<Task[]> => {
     const response = await api.get('/todos');
     return response.data.todos;

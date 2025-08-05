@@ -1,69 +1,66 @@
-# React + TypeScript + Vite
+# Task Management Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern task management application built with React, TypeScript, Vite, Redux, TanStack Query, `shadcn/ui`, Tailwind CSS, and the DummyJSON API.
 
-Currently, two official plugins are available:
+## Features
+- **Authentication**: Login (`/login`) mock  with password visibility toggle.
+- **Task Management**: Add, edit, delete tasks with optimistic updates and `localStorage` persistence.
+- **Delete Confirmation**: Confirm task deletion via dialog.
+- **Filtering**: Filter tasks by status (`All`, `To Do`, `In Progress`, `Done`).
+- **Responsive UI**: Blue-themed design with dark mode support.
+- **Navigation**: Protected routes, redirects for authenticated/unauthenticated users.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- **Frontend**: React 18, TypeScript, Vite
+- **State Management**: Redux Toolkit
+- **Data Fetching**: TanStack Query
+- **UI Components**: `shadcn/ui`, Tailwind CSS
+- **API**: DummyJSON (`/todos`, `/auth/login`, `/auth/register`)
+- **Routing**: React Router DOM
 
-## Expanding the ESLint configuration
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd task-management-dashboard
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Install `shadcn/ui` components:
+   ```bash
+   npx shadcn@latest add button input label dialog select alert-dialog
+   ```
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+5. Open `https://task-management-dashboard-orpin.vercel.app/` in your browser.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Usage
+ 
+- **Login**: Use `username:  emilys, `password:  emilyspass` at `/login`.
+- **Dashboard**: Add, edit, delete tasks at `/dashboard`. Filter tasks by status.
+- **Logout**: Click `Log Out` in the navbar to return to `/`.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Testing
+- **Login**: Test with `emilys`/`emilyspass`, verify redirect to `/dashboard`.
+- **Signup**: Test with any credentials, verify redirect to `/login`.
+- **Tasks**: Add/edit/delete tasks, confirm immediate UI updates and `localStorage` persistence.
+- **Errors**: Test invalid login/task inputs, verify error toasts.
+- **UI**: Test responsiveness (mobile, tablet, desktop) and dark mode.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Build
+```bash
+npm run build
+ 
 ```
+Open `http://localhost:5173/` to test the production build.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Notes
+- DummyJSON API has mock behavior (non-persistent `add`, `update`, `delete`). `localStorage` is used for persistence.
+- Dark mode is supported via Tailwind CSS (`dark:` classes).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Live Link
+[Click here](https://task-management-dashboard-orpin.vercel.app/) to view the live demo:  

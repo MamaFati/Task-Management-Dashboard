@@ -4,6 +4,7 @@ import TaskList from '@/components/taskList';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Navbar from '@/components/Navbar';
 import HomePage from '@/pages/HomePage';
+ 
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          
           <Route
             path="/dashboard"
             element={
