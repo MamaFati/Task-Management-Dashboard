@@ -1,43 +1,42 @@
+import type { Task } from '@/hooks/useTask';
+import { store } from '@/store';
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: import.meta.env.VITE_API_URL,
+  headers: { 'Content-Type': 'application/json' },
 });
 
 // Task-related endpoints
-export const fetchTodos = async () => {
-  try{
-     const { data } = await api.get('/todos');
-  console.log(data.todos);
-  return data.todos ?? [];
-  } catch (error) {
-    console.error('Error fetching tasks:', error);
-    return [];
-
-  }
-  // DummyJSON returns todos in a "todos" array
-};
-
-export const addTodo = async (todo: { title: string; description?: string; status: string }) => {
-  const { data } = await api.post('/todos/add', {
-    ...todo,
-    userId: 1, // Hardcode userId for simplicity, as per DummyJSON docs
+// Add auth token to requests
+  api.interceptors.request.use((config) => {
+    const token = store.getState().auth.token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
   });
-  return data;
-};
 
-export const updateTodo = async (id: number, todo: Partial<{ title: string; description?: string; status: string }>) => {
-  const { data } = await api.put(`/todos/${id}`, todo);
-  return data;
-};
+  export const login = async (credentials: { username: string; password: string }) => {
+    const response = await api.post('/auth/login', credentials);
+    return response.data;
+  };
 
-export const deleteTodo = async (id: number) => {
-  const { data } = await api.delete(`/todos/${id}`);
-  return data;
-};
+  export const fetchTodos = async (): Promise<Task[]> => {
+    const response = await api.get('/todos');
+    return response.data.todos;
+  };
 
-// Authentication endpoint
-export const login = async (credentials: { username: string; password: string }) => {
-  const { data } = await api.post('/auth/login', credentials);
-  return data;
-};
+  export const addTodo = async (todo: Omit<Task, 'id'>): Promise<Task> => {
+    const response = await api.post('/todos/add', todo);
+    return response.data;
+  };
+
+  export const updateTodo = async (id: number, todo: Partial<Task>): Promise<Task> => {
+    const response = await api.put(`/todos/${id}`, todo);
+    return response.data;
+  };
+
+  export const deleteTodo = async (id: number): Promise<void> => {
+    await api.delete(`/todos/${id}`);
+  };

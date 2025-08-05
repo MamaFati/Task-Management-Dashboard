@@ -6,31 +6,34 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { Task } from '@/hooks/useTask';
+import type { RootState } from '@/store';
+import { useSelector } from 'react-redux';
 
 interface TaskFormProps {
-  task?: Task; // Optional for editing
+  task?: Task;
   onClose: () => void;
 }
 
 interface FormData {
-  title: string;
-  description?: string;
-  status: 'To Do' | 'In Progress' | 'Done';
+  todo: string;
+  completed: boolean;
 }
 
 const TaskForm = ({ task, onClose }: TaskFormProps) => {
   const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<FormData>({
     defaultValues: task
-      ? { title: task.title, description: task.description, status: task.status }
-      : { title: '', description: '', status: 'To Do' },
+      ? { todo: task.todo, completed: task.completed }
+      : { todo: '', completed: false },
   });
   const { addTask, updateTask, addTaskStatus, updateTaskStatus } = useTasks();
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const onSubmit = (data: FormData) => {
+    const payload = { ...data, userId: user?.id || 152 }; // Fallback to 152 if no user
     if (task) {
-      updateTask({ id: task.id, todo: data });
+      updateTask({ id: task.id, todo: payload });
     } else {
-      addTask(data);
+      addTask(payload);
     }
     reset();
     onClose();
@@ -44,42 +47,30 @@ const TaskForm = ({ task, onClose }: TaskFormProps) => {
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="todo">Task</Label>
             <Input
-              id="title"
-              placeholder="Enter task title"
-              {...register('title', { required: 'Title is required' })}
+              id="todo"
+              placeholder="Enter task"
+              {...register('todo', { required: 'Task is required' })}
             />
-            {errors.title && (
-              <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+            {errors.todo && (
+              <p className="text-red-500 text-sm mt-1">{errors.todo.message}</p>
             )}
           </div>
           <div>
-            <Label htmlFor="description">Description</Label>
-            <Input
-              id="description"
-              placeholder="Enter task description (optional)"
-              {...register('description')}
-            />
-          </div>
-          <div>
-            <Label htmlFor="status">Status</Label>
+            <Label htmlFor="completed">Status</Label>
             <Select
-              defaultValue={task?.status || 'To Do'}
-              onValueChange={(value) => setValue('status', value as 'To Do' | 'In Progress' | 'Done')}
+              defaultValue={task?.completed ? 'Done' : 'Pending'}
+              onValueChange={(value) => setValue('completed', value === 'Done')}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="To Do">To Do</SelectItem>
-                <SelectItem value="In Progress">In Progress</SelectItem>
+                <SelectItem value="Pending">Pending</SelectItem>
                 <SelectItem value="Done">Done</SelectItem>
               </SelectContent>
             </Select>
-            {errors.status && (
-              <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
-            )}
           </div>
           <div className="flex justify-end space-x-2">
             <Button variant="outline" type="button" onClick={onClose}>
@@ -88,6 +79,7 @@ const TaskForm = ({ task, onClose }: TaskFormProps) => {
             <Button
               type="submit"
               disabled={addTaskStatus.isPending || updateTaskStatus.isPending}
+              className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
             >
               {addTaskStatus.isPending || updateTaskStatus.isPending ? 'Saving...' : 'Save'}
             </Button>

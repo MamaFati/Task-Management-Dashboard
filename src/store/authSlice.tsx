@@ -6,7 +6,6 @@ interface AuthState {
   isAuthenticated: boolean;
 }
 
-// Load initial state from localStorage
 const loadState = (): AuthState => {
   try {
     const serializedState = localStorage.getItem('auth');
@@ -32,14 +31,12 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isAuthenticated = true;
-      // Save to localStorage
       localStorage.setItem('auth', JSON.stringify(state));
     },
     logout: (state) => {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
-      // Clear localStorage
       localStorage.removeItem('auth');
     },
   },
