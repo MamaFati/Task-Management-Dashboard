@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { fetchTodos, addTodo, updateTodo, deleteTodo } from '@/lib/api';
+import { addDeletedTaskId, addLocalTask, getDeletedTaskIds, getLocalTasks, updateLocalTask } from '@/lib/utils';
 
 export interface Task {
   id:  number;
@@ -9,45 +10,7 @@ export interface Task {
   userId: number;
 }
 
-const getDeletedTaskIds = (): number[] => {
-  try {
-    const deletedIds = localStorage.getItem('deletedTaskIds');
-    return deletedIds ? JSON.parse(deletedIds) : [];
-  } catch {
-    return [];
-  }
-};
-
-const addDeletedTaskId = (id: number) => {
-  const deletedIds = getDeletedTaskIds();
-  if (!deletedIds.includes(id)) {
-    deletedIds.push(id);
-    localStorage.setItem('deletedTaskIds', JSON.stringify(deletedIds));
-  }
-};
-
-const getLocalTasks = (): Task[] => {
-  try {
-    const localTasks = localStorage.getItem('localTasks');
-    return localTasks ? JSON.parse(localTasks) : [];
-  } catch {
-    return [];
-  }
-};
-
-const addLocalTask = (task: Task) => {
-  const localTasks = getLocalTasks();
-  localTasks.push(task);
-  localStorage.setItem('localTasks', JSON.stringify(localTasks));
-};
-
-const updateLocalTask = (id: number, updatedTask: Partial<Task>) => {
-  const localTasks = getLocalTasks();
-  const updatedTasks = localTasks.map((task) =>
-    task.id === id ? { ...task, ...updatedTask } : task
-  );
-  localStorage.setItem('localTasks', JSON.stringify(updatedTasks));
-};
+ 
 
 export const useTasks = () => {
   const queryClient = useQueryClient();

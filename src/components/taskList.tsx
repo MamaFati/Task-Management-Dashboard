@@ -64,14 +64,14 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
           <Select
             value={statusFilter}
             onValueChange={(value: string) =>
-              dispatch(setStatusFilter(value as 'All'| 'In Progress' | 'Done'))
+              dispatch(setStatusFilter(value as 'To Do'| 'In Progress' | 'Done'))
             }
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="All">All</SelectItem>
+              <SelectItem value="All">To Do</SelectItem>
               <SelectItem value="In Progress">In Progress</SelectItem>
               <SelectItem value="Done">Done</SelectItem>
             </SelectContent>
@@ -103,7 +103,7 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
               </tr>
             </thead>
             <tbody>
-              {filteredTasks.map((task: { id: Key | null | undefined; todo: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; completed: any; userId: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }, index: number) => (
+              {filteredTasks.map((task: { id: Key | null | undefined; todo: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; completed: any;  },index: number) => (
                 <tr
                   key={task.id}
                   className={`
@@ -139,12 +139,10 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
                           : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'}
                       `}
                     >
-                      {task.completed ? 'Done' : 'Pending'}
+                      {task.completed ? 'Done' : 'In Progress'}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-gray-600 dark:text-gray-400">
-                    {task.userId}
-                  </td>
+                   
                   <td className="px-4 py-3">
                     <div className="flex space-x-2">
                       <Button

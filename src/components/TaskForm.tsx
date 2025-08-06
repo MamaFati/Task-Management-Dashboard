@@ -60,14 +60,15 @@ const TaskForm = ({ task, onClose }: TaskFormProps) => {
           <div>
             <Label htmlFor="completed">Status</Label>
             <Select
-              defaultValue={task?.completed ? 'Done' : 'Pending'}
+              defaultValue={task?.completed ? 'Done' : 'In Progress'}
               onValueChange={(value) => setValue('completed', value === 'Done')}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Pending">Pending</SelectItem>
+                <SelectItem value="To DO"> To Do</SelectItem>
+                <SelectItem value="In Progress">In Progress</SelectItem>
                 <SelectItem value="Done">Done</SelectItem>
               </SelectContent>
             </Select>
