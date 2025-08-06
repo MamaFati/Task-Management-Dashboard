@@ -6,16 +6,16 @@ A modern task management application built with React, TypeScript, Vite, Redux, 
 - **Authentication**: Login (`/login`) mock  with password visibility toggle.
 - **Task Management**: Add, edit, delete tasks with optimistic updates and `localStorage` persistence.
 - **Delete Confirmation**: Confirm task deletion via dialog.
-- **Filtering**: Filter tasks by status (`All`, `To Do`, `In Progress`, `Done`).
+- **Filtering**: Filter tasks by status ( `To Do`, `In Progress`, `Done`).
 - **Responsive UI**: Blue-themed design with dark mode support.
 - **Navigation**: Protected routes, redirects for authenticated/unauthenticated users.
 
 ## Tech Stack
-- **Frontend**: React 18, TypeScript, Vite
+- **Frontend**: React, TypeScript, Vite
 - **State Management**: Redux Toolkit
 - **Data Fetching**: TanStack Query
 - **UI Components**: `shadcn/ui`, Tailwind CSS
-- **API**: DummyJSON (`/todos`, `/auth/login`, `/auth/register`)
+- **API**: DummyJSON (`/todos`, `/auth/login` )
 - **Routing**: React Router DOM
 
 ## Installation
