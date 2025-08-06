@@ -59,32 +59,35 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
     }
 
     return (
-      <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <Select
-            value={statusFilter}
-            onValueChange={(value: string) =>
-              dispatch(setStatusFilter(value as 'To Do'| 'In Progress' | 'Done'))
-            }
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">To Do</SelectItem>
-              <SelectItem value="In Progress">In Progress</SelectItem>
-              <SelectItem value="Done">Done</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button
-            className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
-            onClick={() => setIsFormOpen(true)}
-          >
-            Add Task
-          </Button>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+          <div className="w-full px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto">
+          <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Manage Tasks</h2>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
+            <Select
+              value={statusFilter}
+              onValueChange={(value: string) =>
+                dispatch(setStatusFilter(value as 'To Do' | 'In Progress' | 'Done'))
+              }
+            >
+              <SelectTrigger className="w-full sm:w-[180px]">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All">To Do</SelectItem>
+                <SelectItem value="In Progress">In Progress</SelectItem>
+                <SelectItem value="Done">Done</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+              onClick={() => setIsFormOpen(true)}
+            >
+              Add Task
+            </Button>
+          </div>
+
+          <div className="overflow-x-auto rounded-md border border-gray-200 dark:border-gray-700">
+            <table className="min-w-full bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+               
             <thead className="bg-gray-100 dark:bg-gray-700">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">
@@ -195,6 +198,9 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
             </tbody>
           </table>
         </div>
+           
+         
+          
         {isFormOpen && (
           <TaskForm
             task={editingTask}
