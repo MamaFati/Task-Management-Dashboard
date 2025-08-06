@@ -64,7 +64,7 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
           <Select
             value={statusFilter}
             onValueChange={(value: string) =>
-              dispatch(setStatusFilter(value as 'All' |'To Do' | 'In Progress' | 'Done'))
+              dispatch(setStatusFilter(value as 'All'| 'In Progress' | 'Done'))
             }
           >
             <SelectTrigger className="w-[180px]">
@@ -72,7 +72,6 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="All">All</SelectItem>
-              <SelectItem value="To Do">To Do</SelectItem>
               <SelectItem value="In Progress">In Progress</SelectItem>
               <SelectItem value="Done">Done</SelectItem>
             </SelectContent>
@@ -97,9 +96,7 @@ import { useState, type JSXElementConstructor, type Key, type ReactElement, type
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">
-                  User ID
-                </th>
+                 
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">
                   Actions
                 </th>
